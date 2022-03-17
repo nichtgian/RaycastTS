@@ -39,6 +39,7 @@ class Raycaster {
     let step = new Coordinate();
     let ray = new Coordinate();
     let distance = 0;
+    let xWallHit = true;
 
     // West
     if (direction.x < 0) {
@@ -70,14 +71,17 @@ class Raycaster {
         wallPos.y += step.y;
         distance = ray.y;
         ray.y += unitStep.y;
+        xWallHit = false;
       }
 
-      // Check OutOfBound -> x/y < 0 or x/y > mapsize
-      if (wallPos.x == 0 || wallPos.y == 0 || wallPos.x == 6 || wallPos.y == 6) {
-        // Check SolidWall
-        if (true) {
-          console.log("hit wall");
-          return new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance);
+      // Check OutOfBound -> x/y < 0 or x/y > mapsize, then if solid
+      if (wallPos.x <= 0 || wallPos.y <= 0 || wallPos.x >= this.level.getWidth() || wallPos.y >= this.level.getHeight() || this.level.isSolid(wallPos.x, wallPos.y)) {
+        if (this.level.isSolid(wallPos.x, wallPos.y)) {
+
+          return { 
+            coord: new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance), 
+            distance: xWallHit ? Math.abs(wallPos.x + 1 - position.x): Math.abs(wallPos.y + 1 - position.y)
+          };
         }
       }
     }

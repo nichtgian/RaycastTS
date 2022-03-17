@@ -1,4 +1,5 @@
 import { Minimap } from "./Minimap.js";
+import { Render } from "./Render.js";
 
 class Canvas {
     constructor(canvasId) {
@@ -6,6 +7,7 @@ class Canvas {
         this.ctx = this.htmlCanvas.getContext("2d");
 
         this.minimap = new Minimap();
+        this.render = new Render();
     }
 
     clear() {
@@ -18,6 +20,11 @@ class Canvas {
         this.clear();
         this.minimap.draw(this.ctx, level);
         this.minimap.drawPlayer(this.ctx, player.position);
+    }
+
+    drawRender(engine, player) {
+        this.clear();
+        this.render.drawWalls(this.ctx, engine, player);
     }
 }
 

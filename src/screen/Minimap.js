@@ -6,8 +6,8 @@ class Minimap {
     }
 
     draw(ctx, level) {
-        for (let x = 0; x < level.map[0].length; x++) {
-            for (let y = 0; y < level.map.length; y++) {
+        for (let x = 0; x < level.getWidth(); x++) {
+            for (let y = 0; y < level.getHeight(); y++) {
                 if (level.isSolid(x, y)) {
                     ctx.fillRect(x * 20, y * 20, 20, 20);
                 }

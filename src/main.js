@@ -8,10 +8,15 @@ const canvas = new Canvas("Screen");
 const engine = new Raycaster(WORLD.levels[0]);
 const player = new Player(engine.getSpawnpoint());
 
-canvas.drawMinimap(engine.level, player);
+//canvas.drawMinimap(engine.level, player);
+// let intersection = engine.cast(player.position, player.direction.vector)
 
-let intersection = engine.cast(player.position, player.direction.vector)
-console.log("x: " + intersection.x + " y: " + intersection.y);
+canvas.drawRender(engine, player);
+//console.log("x: " + intersection.x + " y: " + intersection.y);
 
 // Gameloop
-//setInterval(engine.run, 100);
+
+setInterval(() => {
+    canvas.drawRender(engine, player);
+    player.direction.turn(0.05);
+}, 300);

@@ -10,12 +10,18 @@ class Direction {
     }
 
     update() {
+        this.rad = Direction.adjustPeriod(this.rad);
         this.deg = Direction.getDeg(this.rad);
         this.vector = Direction.getVector(this.rad);
     }
 
-    change(newRad) {
-        this.rad = newRad;
+    changeRad(newRad) {
+        this.rad = Direction.adjustPeriod(newRad);
+        this.update();
+    }
+
+    turn(radChange = 0.05) {
+        this.rad += radChange;
         this.update();
     }
 
@@ -25,6 +31,18 @@ class Direction {
 
     static getVector(rad) {
         return new Coordinate(Math.cos(rad), Math.sin(rad));
+    }
+
+    // Period [0;2*PI]
+    static adjustPeriod(rad) {
+        if (rad < 0) {
+            rad += Math.PI * 2;
+            return Direction.adjustPeriod(rad);
+        } else if (rad > Math.PI * 2) {
+            rad -= Math.PI * 2;
+            return Direction.adjustPeriod(rad);
+        }
+        return rad;
     }
 }
 

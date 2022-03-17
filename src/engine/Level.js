@@ -8,8 +8,20 @@ class Level {
         this.spawnPoint = spawnPoint;
     }
 
+    getWidth() { // X-Achsis
+        return this.map[0].length;
+    }
+
+    getHeight() { // Y-Achsis
+        return this.map.length;
+    }
+
+    get(x, y) {
+        return this.map[y][x];
+    }
+
     isSolid(x, y) {
-        return this.map[y][x] == 0 ? false : true;
+        return this.get(x, y) == 0 ? false : true;
     }
 }
 
