@@ -1,4 +1,4 @@
-const CardinalDirection = {
+const CardinalDirectionRad = {
     // 270°
     Noth: Math.PI * 1.5,
     NNW: Math.PI * 1.625,
@@ -21,4 +21,21 @@ const CardinalDirection = {
     NNW: Math.PI * 1.375
 }
 
-export { CardinalDirection };
+const KeyCode = {
+    W: 87,
+    A: 65,
+    S: 83,
+    D: 68,
+    ArrowUp: 38,
+    ArrowDown: 40,
+    ArrowLeft: 37,
+    ArrowRight: 39
+}
+
+const RGBColor = {
+    TransparentDark: "rgba(0, 0, 0, 0.3)",
+    Skyblue: "#87CEEB",
+    Ground: "#5B8C5A"
+}
+
+export { CardinalDirectionRad, KeyCode, RGBColor }

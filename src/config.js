@@ -1,6 +1,6 @@
 const WORLD_CONFIG = {
     walls: [
-        { id: "1", name: "cobble", height: 1, texture: "cobble.png", textureSouth: "cobble_south"},
+        { id: "1", height: 1, textureMap: "default.png", location: {x: 0, y: 0}, South_location: {x: 0, y: 0}},
         { id: "B", name: "brick" },
     ],
     sprites: [
@@ -8,13 +8,13 @@ const WORLD_CONFIG = {
     ],
     levels: [{
         map: [
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
-            ["1", "0", "0", "0", "0", "1", "0", "0", "0", "1"],
-            ["1", "0", "0", "0", "0", "0", "0", "1", "0", "1"],
-            ["1", "0", "0", "1", "1", "1", "0", "1", "0", "1"],
-            ["1", "0", "0", "0", "0", "0", "0", "1", "0", "1"],
-            ["1", "0", "0", "B", "0", "0", "0", "1", "0", "1"],
-            ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+            ["1", "1", "1", "1", "1", "1", "1", "1", "2", "2"],
+            ["1", "0", "0", "0", "0", "0", "0", "0", "0", "2"],
+            ["1", "0", "0", "0", "0", "1", "0", "0", "0", "2"],
+            ["1", "0", "0", "1", "1", "1", "0", "1", "1", "2"],
+            ["1", "0", "0", "0", "0", "0", "0", "0", "0", "1"],
+            ["1", "0", "0", "2", "0", "0", "0", "1", "0", "1"],
+            ["1", "1", "2", "2", "1", "1", "1", "1", "1", "1"],
         ],
         sprites: [
             { type: 1, posX: 1.5, posY: 1.5 }
@@ -25,12 +25,16 @@ const WORLD_CONFIG = {
 }
 
 const DEFAULT_SETTINGS = {
-    fov: 120,
+    fov: 110,
     renderDistance: 20,
-    minimapRadius: 3,
+    scaling: 1,
     textureSize: 256,
     textureResolution: 1, // 2 -> 128px, 4 -> 64px
     screenResolution: 1 // 0.5 -> ½rays, 0.25 -> ¼rays
+}
+
+const OPTIONS = {
+    minimapRadius: 3,
 }
 
 export { DEFAULT_SETTINGS as SETTINGS, WORLD_CONFIG as WORLD }

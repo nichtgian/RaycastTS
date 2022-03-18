@@ -22,10 +22,11 @@ class Canvas {
         this.minimap.drawPlayer(this.ctx, player.position);
     }
 
-    drawRender(engine, player) {
+    drawRender(engine, player, img) {
         this.clear();
-        this.render.drawWalls(this.ctx, engine, player);
+        this.render.drawSkybox(this.ctx);
+        this.render.drawWalls(this.ctx, engine, player, img);
     }
 }
 
-export { Canvas };
+export { Canvas }

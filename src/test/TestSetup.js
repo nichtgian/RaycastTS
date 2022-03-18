@@ -20,4 +20,4 @@ class TestSetup {
     }
 }
 
-export { TestSetup, TestResult };
+export { TestSetup, TestResult }

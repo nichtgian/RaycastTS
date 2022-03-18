@@ -25,4 +25,4 @@ class Level {
     }
 }
 
-export { Level };
+export { Level }

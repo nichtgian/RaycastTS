@@ -46,4 +46,4 @@ class Direction {
     }
 }
 
-export { Direction };
+export { Direction }

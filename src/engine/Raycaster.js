@@ -1,6 +1,7 @@
 import { SETTINGS } from "../config.js";
 import { Coordinate } from "../common/Coordinate.js";
 import { Level } from "./Level.js";
+import { CardinalDirection } from "../system/enum.js";
 
 class Raycaster {
   constructor(level, renderDistance = SETTINGS.renderDistance, removeFisheye = SETTINGS.removeFisheye) {
@@ -39,12 +40,16 @@ class Raycaster {
     let step = new Coordinate();
     let ray = new Coordinate();
     let distance = 0;
+
+    let horizontalDirection = CardinalDirection.North;
+    let verticalDirection = CardinalDirection.East;
     let xWallHit = true;
 
     // West
     if (direction.x < 0) {
       step.x = -1;
       ray.x = (position.x - wallPos.x) * unitStep.x;
+      verticalDirection = CardinalDirection.West;
     } // East
     else {
       step.x = 1;
@@ -54,6 +59,7 @@ class Raycaster {
     if (direction.y < 0) {
       step.y = -1;
       ray.y = (position.y - wallPos.y) * unitStep.y;
+      horizontalDirection = CardinalDirection.South;
     } // North
     else {
       step.y = 1;
@@ -66,6 +72,7 @@ class Raycaster {
         wallPos.x += step.x;
         distance = ray.x;
         ray.x += unitStep.x;
+        xWallHit = true;
       }
       else {
         wallPos.y += step.y;
@@ -78,9 +85,26 @@ class Raycaster {
       if (wallPos.x <= 0 || wallPos.y <= 0 || wallPos.x >= this.level.getWidth() || wallPos.y >= this.level.getHeight() || this.level.isSolid(wallPos.x, wallPos.y)) {
         if (this.level.isSolid(wallPos.x, wallPos.y)) {
 
+          let hitCoordinate = new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance);
+
+          let cardinalDirection = horizontalDirection;
+          let textureOffset = hitCoordinate.x - Math.floor(hitCoordinate.x);
+
+          if (xWallHit) {
+            cardinalDirection = verticalDirection;
+            textureOffset = hitCoordinate.y - Math.floor(hitCoordinate.y);
+          }
+
+          // flip North & West textures
+          if (cardinalDirection == CardinalDirection.North || cardinalDirection == CardinalDirection.West) {
+            textureOffset = 1 - textureOffset;
+          }
+
           return { 
-            coord: new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance), 
-            distance: xWallHit ? Math.abs(wallPos.x + 1 - position.x): Math.abs(wallPos.y + 1 - position.y)
+            coord: hitCoordinate,
+            cardinalDirection: cardinalDirection,
+            textureOffset: textureOffset,
+            wall: this.level.get(wallPos.x, wallPos.y)
           };
         }
       }
@@ -88,4 +112,4 @@ class Raycaster {
   }
 }
 
-export { Raycaster };
+export { Raycaster }

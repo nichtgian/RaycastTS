@@ -26,4 +26,4 @@ class Minimap {
 
 }
 
-export { Minimap };
+export { Minimap }

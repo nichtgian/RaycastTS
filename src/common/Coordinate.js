@@ -9,4 +9,4 @@ class Coordinate {
     }
 }
 
-export { Coordinate };
+export { Coordinate }

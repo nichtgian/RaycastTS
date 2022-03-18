@@ -4,4 +4,4 @@ class Sprite {
     }
 }
 
-export { Sprite };
+export { Sprite }

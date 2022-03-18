@@ -1,3 +1,7 @@
+body {
+    background-color: aliceblue;
+}
+
 canvas {
     padding: 0;
     margin: auto;
@@ -8,4 +12,6 @@ canvas {
     left: 0;
     right: 0;
     border:1px solid #000000;
+
+    width: 80%;
 }

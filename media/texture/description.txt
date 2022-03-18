@@ -1,0 +1,10 @@
+=> 4x4 texture map (16 textures)
+
+- Each texture map can hold up to 4 x 4 textures
+- Each texture ist 512px wide and high
+- Each texture is seperated by a 16px border
+
+4* 512px + 3* 16px = 2096x2096
+
+0 - 0 => 0/0 512/512
+0 - 1 => 528/0 1040/512

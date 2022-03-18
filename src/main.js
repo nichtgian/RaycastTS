@@ -11,12 +11,18 @@ const player = new Player(engine.getSpawnpoint());
 //canvas.drawMinimap(engine.level, player);
 // let intersection = engine.cast(player.position, player.direction.vector)
 
-canvas.drawRender(engine, player);
+// canvas.drawRender(engine, player);
 //console.log("x: " + intersection.x + " y: " + intersection.y);
 
 // Gameloop
 
-setInterval(() => {
-    canvas.drawRender(engine, player);
-    player.direction.turn(0.05);
-}, 300);
+const img = new Image();
+img.addEventListener("load", function() {
+    
+    setInterval(() => {
+        canvas.drawRender(engine, player, img);
+        player.direction.turn(0.01);
+    }, 200);    
+
+}, false);
+img.src = "../../media/texture/BlueTile.jpg";

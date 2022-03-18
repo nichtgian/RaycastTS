@@ -8,4 +8,4 @@ class Wall {
     }
 }
 
-export { Wall };
+export { Wall }
