@@ -25,4 +25,4 @@ img.addEventListener("load", function() {
     }, 200);    
 
 }, false);
-img.src = "../../media/texture/BlueTile.jpg";
+img.src = "media/texture/BlueTile.jpg";
