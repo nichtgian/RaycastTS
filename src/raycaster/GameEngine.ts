@@ -22,39 +22,35 @@ class GameEngine {
     changeLevel(newLevel: Level): void {
         this.currentLevel = newLevel;
         this.player = new Player(newLevel.spawnPoint);
-        //this.player.moveTo(this.currentLevel.spawnPoint);
     }
 
     // DDA raycasting algorithm
-    raycast(rayDirection: Direction) {
-        let position = this.player.position;
-        let direction = rayDirection.vector;
+    raycast(rayDirection: Direction, position: Coordinate = this.player.position) {
+        const direction: Coordinate = rayDirection.vector;
+        const infinite: number = 100000;
 
-        const infinite = 100000;
-
-        let unitStep = new Coordinate(
+        const unitStep: Coordinate = new Coordinate(
             direction.x == 0 ? infinite : Math.abs(1 / direction.x),
             direction.y == 0 ? infinite : Math.abs(1 / direction.y)
         );
-
-        let wallPos = new Coordinate(
+        const wallPos: Coordinate = new Coordinate(
             Math.floor(position.x),
             Math.floor(position.y)
         );
 
-        let step = new Coordinate();
-        let ray = new Coordinate();
-        let distance = 0;
+        const step: Coordinate = new Coordinate();
+        const ray: Coordinate = new Coordinate();
 
-        let horizontalDirection = CardinalDirection.North;
-        let verticalDirection = CardinalDirection.East;
-        let xWallHit = true;
+        let distance: number = 0;
+        let verticalDirection: CardinalDirection  = CardinalDirection.West;
+        let horizontalDirection: CardinalDirection = CardinalDirection.North;
+        let xWallHit: boolean = true;
 
         // West
         if (direction.x < 0) {
             step.x = -1;
             ray.x = (position.x - wallPos.x) * unitStep.x;
-            verticalDirection = CardinalDirection.West;
+            verticalDirection = CardinalDirection.East;
         } // East
         else {
             step.x = 1;
@@ -86,28 +82,25 @@ class GameEngine {
                 xWallHit = false;
             }
 
-            // OutOfBound -> x/y < 0 or x/y > mapsize, then if solid
-            if (wallPos.x < 0 || wallPos.y < 0  || wallPos.x >= this.currentLevel.mapWidth || wallPos.y >= this.currentLevel.mapHeight) {
-                console.log("out of bound");
+            // OutOfBound -> coord < 0 or coord > mapsize
+            if (!SETTINGS.renderOutOfBound && (wallPos.x < 0 || wallPos.y < 0 || wallPos.x >= this.currentLevel.mapWidth || wallPos.y >= this.currentLevel.mapHeight)) {
                 return null;
             }
-            else if (this.currentLevel.isSolid(wallPos.x, wallPos.y)) {
-                let hitCoordinate = new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance);
+            if (this.currentLevel.isSolid(wallPos.x, wallPos.y)) {
 
-                let cardinalDirection = horizontalDirection;
+                const hitCoordinate = new Coordinate(position.x + direction.x * distance, position.y + direction.y * distance);    
+                let cardinalDirection: CardinalDirection = horizontalDirection;
                 let textureOffset = 0;
 
                 if (xWallHit) {
                     cardinalDirection = verticalDirection;
                     textureOffset = hitCoordinate.y - Math.floor(hitCoordinate.y);
-                    //hitCoordinate.x = Math.floor(hitCoordinate.x);
                 } else {
                     textureOffset = hitCoordinate.x - Math.floor(hitCoordinate.x);
-                    //hitCoordinate.y = Math.floor(hitCoordinate.y);
                 }
 
-                // flip North & West textures
-                if (cardinalDirection == CardinalDirection.North || cardinalDirection == CardinalDirection.West) {
+                // flip textures
+                if (cardinalDirection == CardinalDirection.North || cardinalDirection == CardinalDirection.East) {
                     textureOffset = 1 - textureOffset;
                 }
 
@@ -120,7 +113,6 @@ class GameEngine {
             }
         }
 
-        console.log("raycast limit");
         return null;
     }
 }

@@ -1,37 +1,48 @@
 import { Coordinate } from "./Coordinate.js";
 
 class Direction {
-    rad: number; 
-    deg: number;
-    vector: Coordinate;
+
+    private _rad: number;
+    private _deg: number;
+    private _vector: Coordinate;
+    private _isUpdated: boolean = false;
 
     constructor(rad: number) {
-        this.rad = rad;
+        this._rad = rad;
         this.update();
     }
 
-    private update(): void {
-        this.rad = Direction.adjustToPeriod(this.rad);
-        this.deg = Direction.getDeg(this.rad);
-        this.vector = Direction.getVector(this.rad);
-    }
+    get rad(): number { return this._rad; }
+
+    get deg(): number { this.update(); return this._deg; } 
+
+    get vector(): Coordinate { this.update(); return this._vector; } 
 
     changeRad(newRad: number): void {
-        this.rad = Direction.adjustToPeriod(newRad);
-        this.update();
+        this._rad = Direction.adjustToPeriod(newRad);
+        this._isUpdated = false;
     }
 
     turn(radChange: number = 0.05): void {
-        this.rad += radChange;
-        this.update();
+        this._rad += radChange;
+        this._isUpdated = false;
     }
 
-    static getDeg(rad: number): number {
-        return rad / Math.PI * 180;
+    update(): void {
+        if (!this._isUpdated) {
+            this._rad = Direction.adjustToPeriod(this._rad);
+            this._deg = Direction.getDeg(this._rad);
+            this._vector = Direction.getVector(this._rad);
+            this._isUpdated = true;
+        }   
     }
 
     static getVector(rad: number): Coordinate {
         return new Coordinate(Math.cos(rad), Math.sin(rad));
+    }
+
+    static getDeg(rad: number): number {
+        return rad / Math.PI * 180;
     }
 
     // Period [0;2*PI]

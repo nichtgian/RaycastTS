@@ -26,6 +26,10 @@ class TextureMap {
         }
         
         const definition = this.findDefiningTextureMap(id);
+        if (!definition) {
+            return null;
+        }
+        
         return definition.getTextureSliceById(id, offset, width);
     }
     

@@ -10,9 +10,14 @@ enum Action {
     MoveBackward,
     StrafeLeft,
     StrafeRight,
+    LookLeft,
+    LookRight,
+    LookUp,
+    LookDown,
+    Jump,
+    Crouch,
     ToggleMinimap,
     Interact,
-    Jump,
     Pause
 }
 
@@ -25,6 +30,8 @@ enum KeyCode {
     ArrDown = "ArrowDown",
     ArrLeft = "ArrowLeft",
     ArrRight = "ArrowRight",
+    Q = "KeyQ",
+    E = "KeyE",
     Spacebar = "Space",
 }
 

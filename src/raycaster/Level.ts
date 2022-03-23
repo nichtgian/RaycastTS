@@ -12,10 +12,14 @@ class Level {
         this.spawnPoint = spawnPoint;
 
         this.mapWidth = this.map[0].length; // X-Achsis
-        this.map.length; // Y-Achsis
+        this.mapHeight =  this.map.length; // Y-Achsis
     }
 
     get(x: number, y: number): string {
+        if (x < 0 || y < 0 || x >= this.mapWidth || y >= this.mapHeight) {
+            return "0";
+        }
+
         return this.map[y][x];
     }
 

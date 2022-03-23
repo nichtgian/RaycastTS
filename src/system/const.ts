@@ -23,7 +23,8 @@ const CardinalDirectionRad = {
 const RGBColor = {
     TransparentDark: "rgba(0, 0, 0, 0.3)",
     Skyblue: "#87CEEB",
-    Ground: "#5B8C5A"
+    Ground: "#5B8C5A",
+    DefaultTexture: "#8B8589"
 }
 
 const KeyBindings: KeyBinding[] = [
@@ -31,6 +32,8 @@ const KeyBindings: KeyBinding[] = [
     { action: Action.MoveBackward, keys: [ KeyCode.S, KeyCode.ArrDown ]},
     { action: Action.StrafeLeft, keys: [ KeyCode.A, KeyCode.ArrLeft ]},
     { action: Action.StrafeRight, keys: [ KeyCode.D, KeyCode.ArrRight ]},
+    { action: Action.LookLeft, keys: [ KeyCode.Q ]},
+    { action: Action.LookRight, keys: [ KeyCode.E ]},
     { action: Action.Pause, keys: [ KeyCode.Spacebar ]}
 ];
 

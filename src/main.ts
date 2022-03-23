@@ -1,4 +1,5 @@
-import { SETTINGS, WORLD } from "./system/config.js";
+import { SETTINGS, ACTIVE_ACTION } from "./system/config.js";
+import { WORLD } from "./system/world.js";
 import { GameEngine } from "./raycaster/GameEngine.js";
 import { TextureMap } from "./raycaster/texture/TextureMap.js";
 import { Camera } from "./raycaster/screen/Camera.js";
@@ -21,8 +22,14 @@ textureMap.loaded(gameEngine.currentLevel).then(res => {
         camera.drawSkybox();
         camera.drawWalls(gameEngine, textureMap);
         if (SETTINGS.autoTurn) {
-            gameEngine.player.directionPOV.turn(0.01);
+            gameEngine.player.pov.turn(0.003);
         }
-    }, 100);
+        if (ACTIVE_ACTION.lookSpeed != 0) {
+            gameEngine.player.pov.turn(ACTIVE_ACTION.lookSpeed);
+        }
+        if (ACTIVE_ACTION.movementSpeed != 0) {
+            gameEngine.player.moveBy(ACTIVE_ACTION.movementSpeed);
+        }
+    }, 40);
 
 });

@@ -5,71 +5,65 @@ import { Screen } from "./Screen.js";
 import { CardinalDirection } from "../../system/enum.js";
 import { GameEngine } from "../GameEngine.js";
 import { TextureMap } from "../texture/TextureMap.js";
-import { Player } from "../Player.js";
-import { TextureSlice } from "../../system/type.js";
 
 class Camera extends Screen {
+
+    fovRad: number = SETTINGS.fov / 180 * Math.PI;
+
     constructor(canvas: any, ctx: any) {
         super(canvas, ctx);
     }
 
     drawWalls(engine: GameEngine, textureMap: TextureMap) {
 
-        let player: Player = engine.player;
-        let ctx = this.ctx;
+        const resolutionHalf = SETTINGS.resolution.width / 2;
+        const planeDistance = (resolutionHalf) / Math.tan(this.fovRad / 2)
+        const startX = (-SETTINGS.resolution.width) / 2;
 
-        let fovRad = SETTINGS.fov / 180 * Math.PI;
-        let fovStart = fovRad / 2;
+        for (let x = startX; x < resolutionHalf; x++) {
 
-        let rayDirection = new Direction(player.directionPOV.rad);
-        rayDirection.turn(-fovStart);
-        let turnStep = fovRad / SETTINGS.resolution.width;
-
-        for (let x = 0; x < SETTINGS.resolution.width; x++) {
-
-            let rayHit = engine.raycast(rayDirection);
+            const canvasX = x + resolutionHalf;
+            const rayDirection = new Direction(engine.player.pov.rad + Math.atan(x / planeDistance));
+            const rayHit = engine.raycast(rayDirection);
 
             if (rayHit == null) {
-                rayDirection.turn(turnStep);
                 continue;
             }
 
-
-            let coord = rayHit.coord;
-            let wall = rayHit.wallTextureId;
-            let angleDistortion = new Direction(player.directionPOV.rad - rayDirection.rad);
-            let distanceRaw = coord.getDistanceTo(player.position) //* (Math.cos(angleDistortion.rad) * 0.95);
-
-            let distance = distanceRaw; //* Math.cos(rayDistortion / 10);
+            let distanceToWall = rayHit.coord.getDistanceTo(engine.player.position);
+            if (SETTINGS.correctFisheye) {
+                distanceToWall *= Math.cos(rayDirection.rad - engine.player.pov.rad);
+            }
    
-            let height = 1 * SETTINGS.resolution.height / distance;
-            let margin = (SETTINGS.resolution.height - height) / 2;
+            const wallType = rayHit.wallTextureId;
+            const wallHeight = SETTINGS.scaling * (planeDistance / distanceToWall);
+            const margin = (SETTINGS.resolution.height - wallHeight) / 2;
 
-                    
-            ctx.fillRect(x, margin, 1, height);
-            //ctx.drawImage(img.src, Math.floor(512 * rayHit.textureOffset), 0, 1, 512, x, margin, 1, height);
-
-            let textureQuality = 1;
-            let textureSlice = textureMap.getTextureSlice(wall, rayHit.textureOffset, textureQuality);
-
-            this.drawImage(textureSlice.src, textureSlice.slice, x, margin, 1, height);
-
-
+            // Draw wall texture
+            const textureSlice = textureMap.getTextureSlice(wallType, rayHit.textureOffset, 1);
+            if (textureSlice) {
+                this.drawImage(textureSlice.src, textureSlice.slice, canvasX, margin, 1, wallHeight)
+            } else {
+                this.ctx.fillStyle = RGBColor.DefaultTexture;
+                this.ctx.fillRect(canvasX, margin, 1, wallHeight);
+            }
 
             // Add shadow to South & East
-            if (rayHit.cardinalDirection == CardinalDirection.South || rayHit.cardinalDirection == CardinalDirection.West) {
-                ctx.fillStyle = RGBColor.TransparentDark;
-                ctx.fillRect(x, margin, 1, height);
+            if (rayHit.cardinalDirection == CardinalDirection.North || rayHit.cardinalDirection == CardinalDirection.South) {
+                this.ctx.fillStyle = RGBColor.TransparentDark;
+                this.ctx.fillRect(canvasX, margin, 1, wallHeight);
             }
 
-            // distance shadow SETTING TODO
-            let settingDistanceShadow = true;
-            if (settingDistanceShadow && distance > 4) {
-                ctx.fillStyle = "rgba(0, 0, 0, " + distance / 15 +")";
-                ctx.fillRect(x, margin, 1, height);
-            }
+            // distance shadow
+            if (SETTINGS.showDistanceShadow) {
+                let shadow = distanceToWall / 20;
+                if (shadow > 0.66) {
+                    shadow = 0.66;
+                }
 
-            rayDirection.turn(turnStep);
+                this.ctx.fillStyle = "rgba(0, 0, 0, " + shadow +")";
+                this.ctx.fillRect(canvasX, margin, 1, wallHeight);
+            }
         }
     }
 
@@ -82,13 +76,14 @@ class Camera extends Screen {
     }
 
     drawSkybox() {
-        let ctx = this.ctx;
         let horizon = SETTINGS.resolution.height / 2;
+        this.ctx.fillStyle = RGBColor.Skyblue;
+        this.ctx.fillRect(0, 0, SETTINGS.resolution.width, horizon);
+        this.ctx.fillStyle = RGBColor.Ground;
+        this.ctx.fillRect(0, horizon, SETTINGS.resolution.width, horizon);
+    }
 
-        ctx.fillStyle = RGBColor.Skyblue;
-        ctx.fillRect(0, 0, SETTINGS.resolution.width, horizon);
-        ctx.fillStyle = RGBColor.Ground;
-        ctx.fillRect(0, horizon, SETTINGS.resolution.width, horizon);
+    drawHorizon() {
     }
 }
 
