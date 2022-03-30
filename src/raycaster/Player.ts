@@ -8,7 +8,7 @@ class Player {
 
     constructor(position: Coordinate) {
         this.position = new Coordinate(position.x, position.y);
-        this.pov = new Direction(CardinalDirectionRad.ESE);
+        this.pov = new Direction(CardinalDirectionRad.East, true);
     }
 
     moveTo(newPosition: Coordinate): void {

@@ -6,9 +6,11 @@ class Direction {
     private _deg: number;
     private _vector: Coordinate;
     private _isUpdated: boolean = false;
+    private _autoUpdate: boolean = false;
 
-    constructor(rad: number) {
+    constructor(rad: number, autoUpdate = false) {
         this._rad = rad;
+        this._autoUpdate = autoUpdate;
         this.update();
     }
 
@@ -21,11 +23,19 @@ class Direction {
     changeRad(newRad: number): void {
         this._rad = Direction.adjustToPeriod(newRad);
         this._isUpdated = false;
+
+        if (this._autoUpdate) {
+            this.update();
+        }
     }
 
     turn(radChange: number = 0.05): void {
         this._rad += radChange;
         this._isUpdated = false;
+
+        if (this._autoUpdate) {
+            this.update();
+        }
     }
 
     update(): void {

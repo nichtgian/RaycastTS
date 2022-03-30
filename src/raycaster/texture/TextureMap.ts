@@ -18,6 +18,7 @@ class TextureMap {
         return definition.getTextureById(id);
     }
 
+    // Slice -> texture vertical column
     getTextureSlice(id: string, offset: number, width: number = 1): TextureSlice {
         if (offset < 0) {
             offset = 0;
@@ -32,9 +33,18 @@ class TextureMap {
         
         return definition.getTextureSliceById(id, offset, width);
     }
+
+    // Sample -> texture at sample position
+    getTextureSample(id: string, offsetX: number, offsetY: number = 1, width: number = 1): TextureSlice {
+        let textureSlice = this.getTextureSlice(id, offsetX, width);
+        if (!textureSlice) {
+            return null;
+        }
+        textureSlice.slice.heigth = offsetY;
+        return textureSlice;
+    }
     
     // TODO
-    // when all textures of level are loaded
     async loaded(level: Level): Promise<void> {
         return new Promise((resolve, reject) => setTimeout(resolve, 50));
     }

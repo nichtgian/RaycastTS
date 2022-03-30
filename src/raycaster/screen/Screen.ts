@@ -1,8 +1,9 @@
-import { TextureCoord } from "../../system/type";
+import { SETTINGS } from "../../system/config.js";
+import { TextureCoord } from "../../system/type.js";
 
 abstract class Screen {
-    canvas: any;
-    ctx: any;
+    canvas: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
     screen: {
         width: number;
         height: number;
@@ -19,7 +20,7 @@ abstract class Screen {
 
     clear(): void {
         this.ctx.closePath();
-        this.ctx.clearRect(0, 0, this.screen.width, this.screen.height);
+        this.ctx.clearRect(0, 0, SETTINGS.resolution.width, SETTINGS.resolution.height);
         this.ctx.beginPath();
     }
 

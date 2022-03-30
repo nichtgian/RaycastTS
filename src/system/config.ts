@@ -5,13 +5,15 @@ const DEFAULT_SETTINGS = {
     fov: 100,
     renderDistance: 25,
     renderOutOfBound: true,
+    renderFloors: true,
     showDistanceShadow: true,
     correctFisheye: true,
+    verticalLooking: false,
 
     scaling: 1,
-    resolution: Resolution.HD,
-    textureResolution: Quality.High,
-    screenResolution: Quality.High,
+    resolution: Resolution.SD,
+    textureResolution: Quality.Low,
+    screenResolution: Quality.Low,
 
     minimapRadius: 3,
     showDebugInfo: true,

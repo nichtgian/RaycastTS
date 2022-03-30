@@ -21,10 +21,11 @@ const CardinalDirectionRad = {
 }
 
 const RGBColor = {
-    TransparentDark: "rgba(0, 0, 0, 0.3)",
-    Skyblue: "#87CEEB",
-    Ground: "#5B8C5A",
-    DefaultTexture: "#8B8589"
+    Sky_ClearBlue: "#87CEEB",
+    Ground_Grass: "#5B8C5A",
+    Ground_NoonGray: "#8D7177",
+    Transparent: "rgba(0, 0, 0, 0.3)",
+    Default: "#8B8589"
 }
 
 const KeyBindings: KeyBinding[] = [
@@ -38,6 +39,7 @@ const KeyBindings: KeyBinding[] = [
 ];
 
 const Resolution = {
+    Legacy: { width: 320, height: 180 },
     SD: { width: 640, height: 360 },
     HQ: { width: 854, height: 480 },
     HD: { width: 1280, height: 720 },

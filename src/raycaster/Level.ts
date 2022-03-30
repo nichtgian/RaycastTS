@@ -3,12 +3,14 @@ import { Wall2dArray } from "../system/type.js";
 
 class Level {
     map: Wall2dArray;
+    floor: Wall2dArray;
     spawnPoint: Coordinate;
     mapWidth: number;
     mapHeight: number;
 
-    constructor(map: Wall2dArray, spawnPoint: Coordinate) {
+    constructor(map: Wall2dArray, floor: Wall2dArray, spawnPoint: Coordinate) {
         this.map = map;
+        this.floor = floor;
         this.spawnPoint = spawnPoint;
 
         this.mapWidth = this.map[0].length; // X-Achsis
