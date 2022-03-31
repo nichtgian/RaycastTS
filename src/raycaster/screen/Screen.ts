@@ -1,21 +1,26 @@
 import { SETTINGS } from "../../system/config.js";
+import { RGBColor } from "../../system/const.js";
 import { TextureCoord } from "../../system/type.js";
+import { Direction } from "../common/Direction.js";
 
 abstract class Screen {
+
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;
-    screen: {
-        width: number;
-        height: number;
-    }
 
-    constructor(canvas: any, ctx: any) {
+    protected _fovRad: number = Direction.toRad(SETTINGS.fov);
+    protected _fovRadHalf: number = this._fovRad / 2;
+    protected _2Pi: number = Math.PI * 2;
+
+    protected _resWidth = SETTINGS.resolution.width;
+    protected _resHeight = SETTINGS.resolution.height;
+    protected _resolutionHalf = this._resWidth / 2;
+    protected _rayStartX = (-this._resWidth) / 2;
+    protected _horizon = this._resHeight / 2;
+
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this.canvas = canvas;
         this.ctx = ctx;
-        this.screen = {
-            width: canvas.width,
-            height: canvas.height,
-        }
     }
 
     clear(): void {
@@ -24,8 +29,12 @@ abstract class Screen {
         this.ctx.beginPath();
     }
 
-    drawImage(img: HTMLImageElement, slice: TextureCoord, canvasX: number, camvasY: number, width: number, height: number): void {
+    drawImageSlice(img: HTMLImageElement, slice: TextureCoord, canvasX: number, camvasY: number, width: number, height: number): void {
         this.ctx.drawImage(img, slice.startX, slice.startY, slice.width, slice.heigth, canvasX, camvasY, width, height);
+    }
+
+    changeColor(color: string = RGBColor.Default) {
+        this.ctx.fillStyle = color;
     }
 }
 

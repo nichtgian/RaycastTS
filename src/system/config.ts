@@ -23,7 +23,8 @@ const DEFAULT_SETTINGS = {
 const ACTIVE_ACTION = {
     lookSpeed: 0,
     movementSpeed: 0,
-    strafeSpeed: 0
+    strafeSpeed: 0,
+    displayMinimap: false
 }
 
 export { DEFAULT_SETTINGS as SETTINGS, ACTIVE_ACTION }

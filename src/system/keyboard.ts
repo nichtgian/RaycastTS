@@ -26,6 +26,9 @@ document.addEventListener("keydown", (e: KeyboardEvent) => {
             SETTINGS.autoTurn = false;
             ACTIVE_ACTION.movementSpeed = -0.08;
             break;
+        case Action.ToggleMinimap:
+            ACTIVE_ACTION.displayMinimap = !ACTIVE_ACTION.displayMinimap;
+            break;
     }
 });
 

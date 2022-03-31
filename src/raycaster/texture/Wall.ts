@@ -1,8 +1,11 @@
-import { Texture } from "./Texture.js";
+import { WorldElement } from "./Element.js";
 
-class Wall extends Texture {
-    constructor(id: string) {
-        super(id);
+class Wall extends WorldElement {
+
+    letRayPass: boolean = false;
+
+    constructor(id: string, height: number = 1) {
+        super(id, height);
     }
 }
 

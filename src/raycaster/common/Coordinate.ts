@@ -7,12 +7,12 @@ class Coordinate {
         this.y = y;
     }
 
-    getDistanceTo(otherCoord: Coordinate): number {
-        return Math.sqrt(Math.pow(this.x - otherCoord.x, 2) + Math.pow(this.y - otherCoord.y, 2))
+    distanceTo(destination: Coordinate): number {
+        return Math.sqrt(Math.pow(this.x - destination.x, 2) + Math.pow(this.y - destination.y, 2))
     }
 
-    getAngleTo(otherCoord: Coordinate): number {
-        return (this.y - otherCoord.y) / (this.x - otherCoord.y);
+    angleTo(destination: Coordinate): number {
+        return (this.y - destination.y) / (this.x - destination.y);
     }
 }
 

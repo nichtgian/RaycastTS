@@ -1,6 +1,6 @@
 import { TextureMapDefinitionSettings, TextureSlice } from "../../system/type.js";
 import { Level } from "../Level.js";
-import { Texture } from "./Texture.js";
+import { WorldElement } from "./Element.js";
 
 class TextureMap {
     private _textureMaps: TextureMapDefinition[];
@@ -56,7 +56,7 @@ class TextureMap {
 
 class TextureMapDefinition {
     image: HTMLImageElement = new Image();
-    textures: TextureMapLocation<Texture>[];
+    textures: TextureMapLocation<WorldElement>[];
     settings: TextureMapDefinitionSettings = {
         textureSize: 512,
         textureSpacing: 16,
@@ -64,7 +64,7 @@ class TextureMapDefinition {
         rows: 4
     }
 
-    constructor(imageSrc: string, textures: TextureMapLocation<Texture>[], settings: TextureMapDefinitionSettings = null) {
+    constructor(imageSrc: string, textures: TextureMapLocation<WorldElement>[], settings: TextureMapDefinitionSettings = null) {
         this.image.src = imageSrc;
         this.textures = textures;
 
@@ -74,20 +74,20 @@ class TextureMapDefinition {
     }
 
     definesTexture(textureId: string): boolean {
-        return this.findTextureById(textureId) != undefined;
+        return this.findElementById(textureId) != undefined;
     }
 
-    findTextureById(textureId: string): TextureMapLocation<Texture> {
-        return this.textures.find((texture: TextureMapLocation<Texture>) => texture.object.id == textureId);
+    findElementById(textureId: string): TextureMapLocation<WorldElement> {
+        return this.textures.find((texture: TextureMapLocation<WorldElement>) => texture.object.id == textureId);
     }
 
     getTextureById(textureId: string): TextureSlice {
-        const textureLocation = this.findTextureById(textureId);
+        const textureLocation = this.findElementById(textureId);
         return this.getTexture(textureLocation.columnX, textureLocation.rowY);
     }
 
     getTextureSliceById(textureId: string, offset: number, width: number = 1): TextureSlice {
-        const textureLocation = this.findTextureById(textureId);
+        const textureLocation = this.findElementById(textureId);
         return this.getTextureSlice(textureLocation.columnX, textureLocation.rowY, offset, width);
     }
 
@@ -120,7 +120,7 @@ class TextureMapDefinition {
     }
 }
 
-class TextureMapLocation<ObjectType extends Texture> {
+class TextureMapLocation<ObjectType extends WorldElement> {
     object: ObjectType;
     columnX: number;
     rowY: number;

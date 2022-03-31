@@ -1,39 +1,27 @@
-import { SETTINGS } from "../../system/config.js";
-import { Coordinate } from "../common/Coordinate.js";
+import { RGBColor } from "../../system/const.js";
 import { Level } from "../Level.js";
 import { Screen } from "./Screen.js";
 
 class Minimap extends Screen {
-    settings: {
-        radius: number;
-    }
 
-    constructor(canvas: any, ctx: any, radius: number) {
+    private _radius: number;
+    private _size: number = 10;
+
+    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, radius: number) {
         super(canvas, ctx);
-        this.settings = {
-            radius: radius
-        }
+        this._radius = radius;
     }
 
-    drawFull(level: Level): void {
+    draw(level: Level): void {
+        this.changeColor( RGBColor.Minimap_Wall);
         for (let x = 0; x < level.mapWidth; x++) {
             for (let y = 0; y < level.mapHeight; y++) {
                 if (level.isSolid(x, y)) {
-                    this.ctx.fillRect(x * 20, y * 20, 20, 20);
+                    this.ctx.fillRect(x * this._size, y * this._size, this._size, this._size);
                 }
             }
         }
     }
-
-    drawMinimized(): void {
-
-    }
-
-    private drawPlayer(position: Coordinate): void {
-        this.ctx.arc(position.x * 20, position.y * 20, 5, 0, 2 * Math.PI);
-        this.ctx.fill();
-    }
-
 }
 
 export { Minimap }

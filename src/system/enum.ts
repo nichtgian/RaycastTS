@@ -32,7 +32,10 @@ enum KeyCode {
     ArrRight = "ArrowRight",
     Q = "KeyQ",
     E = "KeyE",
+    M = "KeyM",
     Spacebar = "Space",
+    Esc = "Escape",
+    Shift = "ShiftLeft"
 }
 
 enum Quality {

@@ -24,6 +24,8 @@ const RGBColor = {
     Sky_ClearBlue: "#87CEEB",
     Ground_Grass: "#5B8C5A",
     Ground_NoonGray: "#8D7177",
+    Hud_Crosshair: "#BD063E",
+    Minimap_Wall: "rgba(75, 51, 61, 0.69)",
     Transparent: "rgba(0, 0, 0, 0.3)",
     Default: "#8B8589"
 }
@@ -35,7 +37,8 @@ const KeyBindings: KeyBinding[] = [
     { action: Action.StrafeRight, keys: [ KeyCode.D, KeyCode.ArrRight ]},
     { action: Action.LookLeft, keys: [ KeyCode.Q ]},
     { action: Action.LookRight, keys: [ KeyCode.E ]},
-    { action: Action.Pause, keys: [ KeyCode.Spacebar ]}
+    { action: Action.ToggleMinimap, keys: [ KeyCode.M ]},
+    { action: Action.Pause, keys: [ KeyCode.Spacebar, KeyCode.Esc ]}
 ];
 
 const Resolution = {
