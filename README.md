@@ -1,2 +1,2 @@
-# RaycastJS
- Raycasting game engine using Vanilla Javascript
+# RaycastTS
+ Raycasting game engine using Typescript.
